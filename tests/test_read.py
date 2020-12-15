@@ -1,4 +1,4 @@
-from imodmodel import read
+from imodmodel import ModelFileParser
 
-def test_read():
-    f = read('two_contour_example.mod')
+def test_parser():
+    parser = ModelFileParser('two_contour_example.mod')

@@ -1,3 +1,8 @@
+id_spec = {
+    'IMOD_file_id': '4s',
+    'version_id': '4s'
+}
+
 header_spec = {
     'name': '128s',
     'xmax': 'i',
