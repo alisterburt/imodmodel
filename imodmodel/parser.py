@@ -37,6 +37,7 @@ class ModelFileParser:
         self.open_file()
         self.parse_id()
         self.parse_header()
+        self.parse_object()
         self.close_file()
 
     def open_file(self):
@@ -47,6 +48,8 @@ class ModelFileParser:
 
     def parse_header(self):
         self.header = self.parse_from_specification(self._header_spec)
+
+    def parse_object(self):
 
     def format_from_specification(self, specification: dict):
         return f">{''.join(specification.values())}"
