@@ -1,1 +1,1 @@
-from .parser import read, ModelFileParser
+from .parser import read, ModelParser

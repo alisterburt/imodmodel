@@ -35,7 +35,7 @@ header_spec = {
 
 object_spec = {
     'name': '64s',
-    'extra_data': '64I',
+    'extra_data': '16I',
     'contsize': 'i',
     'flags': 'I',
     'axis': 'i',
@@ -56,15 +56,40 @@ object_spec = {
     'surfsize': 'i'
 }
 
-contour_spec = NotImplemented
+contour_spec = {
+    'psize': 'i',
+    'flags': 'I',
+    'time': 'i',
+    'surf': 'i',
+    'pt': '3f'
+}
+
+imat_spec = {
+    'ambient': 'B',
+    'diffuse': 'B',
+    'specular': 'B',
+    'shininess': 'B',
+    'fillred': 'B',
+    'fillgreen': 'B',
+    'fillblue': 'B',
+    'quality': 'B',
+    'mat2': 'I',
+    'valblack': 'B',
+    'valwhite': 'B',
+    'matflags2': 'B',
+    'mat3b3': 'B'
+}
+
+size_spec = {
+    'sizes': 'f'
+}
+
 mesh_spec = NotImplemented
 minx_spec = NotImplemented
 labl_spec = NotImplemented
 olbl_spec = NotImplemented
 clip_spec = NotImplemented
 mclp_spec = NotImplemented
-imat_spec = NotImplemented
-size_spec = NotImplemented
 view_spec = NotImplemented
 most_spec = NotImplemented
 obst_spec = NotImplemented
@@ -75,8 +100,7 @@ mepa_spec = NotImplemented
 skli_spec = NotImplemented
 ogrp_spec = NotImplemented
 
-
-chunk_id = {
+control_sequences = {
     'OBJT': object_spec,
     'CONT': contour_spec,
     'MESH': mesh_spec,
