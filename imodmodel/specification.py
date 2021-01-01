@@ -84,13 +84,33 @@ size_spec = {
     'sizes': 'f'
 }
 
+view_spec = {
+    'fovy' : 'f',
+    'rad' : 'f',
+    'aspect' : 'f',
+    'cnear' : 'f',
+    'cfar' : 'f',
+    'rot' : '3f',
+    'trans' : '3f',
+    'scale' : '3f',
+    'mat' : '16f',
+    'world' : 'i',
+    'label' : '32c',
+    'dcstart' : 'f',
+    'dcend' : 'f',
+    'lightx' : 'f',
+    'lighty' : 'f',
+    'plax' : 'f',
+    'objvsize' : 'i',
+    'bytesObjv' : 'i'
+}
+
 mesh_spec = NotImplemented
 minx_spec = NotImplemented
 labl_spec = NotImplemented
 olbl_spec = NotImplemented
 clip_spec = NotImplemented
 mclp_spec = NotImplemented
-view_spec = NotImplemented
 most_spec = NotImplemented
 obst_spec = NotImplemented
 cost_spec = NotImplemented

@@ -1,7 +1,7 @@
 from struct import Struct
-import binascii
+from warnings import warn
 
-from typing import Union
+
 import numpy as np
 
 from .model import Model, Header, Object, Contour, Imat
@@ -24,18 +24,20 @@ def read(filename: str, header_only=False):
     -------
 
     """
-    pass
+    parser = ModelParser(filename)
+    return parser.model
 
 
 class ModelParser:
-    def __init__(self, filename: str):
+    def __init__(self, filename: str, parse=True):
         self.filename = filename
         self.file = None
         self.buffer = None
         self.control_sequence = None
         self.end_of_file_reached = False
         self.model = Model()
-        self.parse_file()
+        if parse:
+            self.parse_file()
 
     def parse_file(self):
         self.open_file()
@@ -72,10 +74,13 @@ class ModelParser:
         end_of_object = False
         while end_of_object is False:
             self.update_control_sequence()
-            if self.control_sequence == 'OBJT':
+            if self.control_sequence in ('OBJT', 'IEOF', 'EOF'):
                 end_of_object = True
                 continue
             self.update_object_from_control_sequence(object)
+
+        # add object to model
+        self.model.add_object(object)
 
     def parse_contour(self):
         contour = Contour()
@@ -161,9 +166,16 @@ class ModelParser:
         return parser_functions
 
     def update_control_sequence(self):
-        self.control_sequence = self.read_from_buffer(4).decode('utf-8')
+        try:
+            self.control_sequence = self.read_from_buffer(4).decode('utf-8')
+        except UnicodeDecodeError:
+            self.control_sequence = None
 
     def update_object_from_control_sequence(self, object):
-        parser_function = self._parser_functions[self.control_sequence]
-        data = parser_function()
-        object.add_data(data)
+        parser_function = self._parser_functions.get(self.control_sequence)
+        if parser_function:
+            data = parser_function()
+            object.add_data(data)
+        else:
+            warn(f'could not parse the control sequence {self.control_sequence}')
+

@@ -1,3 +1,5 @@
+import numpy as np
+
 from .specification import header_spec, object_spec, contour_spec, imat_spec
 
 
@@ -16,8 +18,36 @@ class Model:
         self.header = None
         self.objects = []
 
-    def _add_object(self, object):
+    def add_object(self, object):
         self.objects.append(object)
+
+    def as_contour_dict(self):
+        if len(self.objects) != 1:
+            raise ValueError('only working for simple models containing one object')
+
+        object = self.objects[0]
+        data = {contour_idx: contour.pt for contour_idx, contour in enumerate(object.contours)}
+        return data
+
+    def as_contour_array(self):
+        contour_data = self.as_contour_dict()
+        n = sum([contour.shape[0] for contour in contour_data.values()])
+        contour_array = np.empty((n, 4))
+
+        row = 0
+        for contour_idx, contour in contour_data.items():
+            previous_row = row
+            row += contour.shape[0]
+            contour_array[previous_row:row, :3] = contour
+            contour_array[previous_row:row, 3] = contour_idx
+
+        return contour_array
+
+    def as_dataframe(self):
+        import pandas as pd
+        columns = ['x', 'y', 'z', 'contour_idx']
+        df = pd.DataFrame(self.as_contour_array(), columns=columns)
+        return df
 
 
 class Object(ImodDataStructure):
