@@ -4,40 +4,20 @@ from warnings import warn
 
 import numpy as np
 
-from .model import Model, Header, Object, Contour, Imat
+from .data_structures import Model, Header, Object, Contour, Imat
 from .specification import id_spec, header_spec, object_spec, contour_spec, imat_spec, \
     control_sequences
 
 
-def read(filename: str, header_only=False):
-    """
-    read an IMOD model file
-
-    Parameters
-    ----------
-    filename : str
-               filename to read
-    header_only : bool
-                  read only the file header
-
-    Returns
-    -------
-
-    """
-    parser = ModelParser(filename)
-    return parser.model
-
-
 class ModelParser:
-    def __init__(self, filename: str, parse=True):
+    def __init__(self, filename: str):
         self.filename = filename
         self.file = None
         self.buffer = None
         self.control_sequence = None
         self.end_of_file_reached = False
         self.model = Model()
-        if parse:
-            self.parse_file()
+        self.parse_file()
 
     def parse_file(self):
         self.open_file()

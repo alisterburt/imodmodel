@@ -13,7 +13,7 @@ class ImodDataStructure:
             self.__setattr__(key, value)
 
 
-class Model:
+class Model(ImodDataStructure):
     def __init__(self):
         self.header = None
         self.objects = []
